@@ -1,0 +1,8 @@
+server:
+  port: 8000
+spring:
+  data:
+    mongodb:
+      database: MongoCrud
+      host: localhost
+      port: 27017

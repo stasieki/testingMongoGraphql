@@ -1,0 +1,52 @@
+schema {
+    query : Query
+}
+
+type Query {
+    #        users: [User]
+    projects: [Project]
+    project:Project
+    user(id: String): User
+    #    createUser(name:String): User
+}
+
+type User {
+    #imienia, nazwiska, adresu e-mail, daty urodzenia
+    #zawiera przypisane zadania oraz projekty,
+    id : String
+    name : String!
+    surname: String!
+    eMail : String
+    birthDate: String
+    projects:[Project]
+    tasks:[Task]
+}
+
+type Task{
+    # może być grupą i zawierać podzadania,
+    #- powinno składać się z tytułu, treści, daty utworzenia, daty początku, daty końca, przypisanych użytkowników, priorytetu
+    id:String
+    title: String!
+    content: String
+    creationDate: String
+    startDate:String
+    endDate:String
+    priority:String
+    users:[User]
+    tasks:[Task]
+}
+
+type Project{
+    #zawiera zadania,
+    #- może zawierać projekty powiązane,
+    #- powinien składać się z tytułu, opisu, daty utworzenia, daty początku, daty końca, przypisanych użytkowników,
+    id:String
+    title: String
+    description: String
+    creationDate: String
+    startDate:String
+    endDate:String
+    users:[User]
+    tasks:[Task]
+    projects:[Project]
+}
