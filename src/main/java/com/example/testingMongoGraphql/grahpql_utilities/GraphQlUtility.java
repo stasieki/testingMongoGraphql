@@ -1,7 +1,6 @@
 package com.example.testingMongoGraphql.grahpql_utilities;
 
-import com.example.testingMongoGraphql.dataFetchers.AllProjectsDataFetcher;
-import com.example.testingMongoGraphql.dataFetchers.UserDataFetcher;
+import com.example.testingMongoGraphql.dataFetchers.*;
 import graphql.GraphQL;
 import graphql.schema.GraphQLSchema;
 import graphql.schema.idl.RuntimeWiring;
@@ -26,32 +25,26 @@ public class GraphQlUtility {
     @Value("classpath:schemas.graphqls")
     private Resource schemaResource;
     private GraphQL graphQL;
-    private AllProjectsDataFetcher allProjectsDataFetcher;
-    private UserDataFetcher userDataFetcher;
-//    private AllTasksDataFetcher allTasksDataFetcher;
-//    private UserDataFetcher userDataFetcher;
-//    private TaskDataFetcher taskDataFetcher;
-//    private ProjectDataFetcher projectDataFetcher;
-//    private UserProjectsDataFetcher userProjectsDataFetcher;
-//    private UserTasksDataFetcher userTasksDataFetcher;
-
-//    @Autowired
-////    GraphQlUtility(UserProjectsDataFetcher userProjectsDataFetcher, UserTasksDataFetcher userTasksDataFetcher, ProjectDataFetcher projectDataFetcher, AllTasksDataFetcher allTasksDataFetcher, UserDataFetcher userDataFetcher,
-////                   TaskDataFetcher taskDataFetcher, AllProjectsDataFetcher allProjectsDataFetcher) throws IOException {
-////        this.userDataFetcher = userDataFetcher;
-////        this.taskDataFetcher = taskDataFetcher;
-////        this.allProjectsDataFetcher = allProjectsDataFetcher;
-////        this.allTasksDataFetcher = allTasksDataFetcher;
-////        this.projectDataFetcher = projectDataFetcher;
-////        this.userProjectsDataFetcher=userProjectsDataFetcher;
-////        this.userTasksDataFetcher=userTasksDataFetcher;
-////
-////    }
+    private final AllProjectsDataFetcher allProjectsDataFetcher;
+    private final UserDataFetcher userDataFetcher;
+    private final DeleteUserDataFetcher deleteUserDataFetcher;
+    private final ProjectUsersDataFetcher projectUsersDataFetcher;
+    private final UserProjectsDataFetcher userProjectsDataFetcher;
+    private final ProjectsTitleDataFetcher projectsTitleDataFetcher;
+    private final UsersSurnameEmailDataFetcher usersSurnameEmailDataFetcher;
 
     @Autowired
-    GraphQlUtility(AllProjectsDataFetcher allProjectsDataFetcher, UserDataFetcher userDataFetcher) throws IOException {
+    GraphQlUtility(AllProjectsDataFetcher allProjectsDataFetcher, UserDataFetcher userDataFetcher,
+                   DeleteUserDataFetcher deleteUserDataFetcher, ProjectUsersDataFetcher projectUsersDataFetcher,
+                   UserProjectsDataFetcher userProjectsDataFetcher, ProjectsTitleDataFetcher projectsTitleDataFetcher,
+                   UsersSurnameEmailDataFetcher usersSurnameEmailDataFetcher ) throws IOException {
         this.allProjectsDataFetcher = allProjectsDataFetcher;
-        this.userDataFetcher=userDataFetcher;
+        this.userDataFetcher = userDataFetcher;
+        this.deleteUserDataFetcher = deleteUserDataFetcher;
+        this.projectUsersDataFetcher = projectUsersDataFetcher;
+        this.userProjectsDataFetcher = userProjectsDataFetcher;
+        this.projectsTitleDataFetcher = projectsTitleDataFetcher;
+        this.usersSurnameEmailDataFetcher= usersSurnameEmailDataFetcher;
     }
 
 
@@ -69,9 +62,16 @@ public class GraphQlUtility {
                 .type("Query", typeWiring -> typeWiring
                         .dataFetcher("projects", allProjectsDataFetcher)
                         .dataFetcher("user", userDataFetcher)
-                )
+                        .dataFetcher("findProjects", projectsTitleDataFetcher)
+                        .dataFetcher("findSurnameEmail", usersSurnameEmailDataFetcher)
+                        .dataFetcher("deleteUser", deleteUserDataFetcher))
+//                .type("Mutation", typeWiring -> typeWiring
+//                )
                 .type("Project", typeWiring -> typeWiring
-                        .dataFetcher("projectsList", allProjectsDataFetcher))
+                        .dataFetcher("projects", allProjectsDataFetcher)
+                        .dataFetcher("users", projectUsersDataFetcher))
+                .type("User", typeWiring -> typeWiring
+                        .dataFetcher("projects", userProjectsDataFetcher))
                 .build();
     }
 }

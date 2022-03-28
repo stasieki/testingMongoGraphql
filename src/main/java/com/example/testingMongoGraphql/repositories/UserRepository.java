@@ -5,10 +5,13 @@ import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-import java.util.Optional;
+import java.util.List;
 
 //public interface UserRepository extends PagingAndSortingRepository<User,String> {
 public interface UserRepository extends MongoRepository<User,ObjectId> {
-//    Optional<User> findById(ObjectId id);
-//    List<Task> findByIdIn(List<Task> ids);
+    List<User> findAllByIdIn(List<String> userListIds);
+
+    List<User> findAllBySurname(String surname);
+
+    List<User> findAllByEmail(String email);
 }

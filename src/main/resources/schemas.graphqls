@@ -1,13 +1,21 @@
 schema {
     query : Query
+    mutation: Mutation
 }
 
 type Query {
-    #        users: [User]
+
     projects: [Project]
+    findProjects(title:String): [Project]
     project:Project
     user(id: String): User
-    #    createUser(name:String): User
+    deleteUser(id: String): Boolean
+    findSurnameEmail(surname: String, email:String):[User]
+}
+
+type Mutation{
+    #    deleteUser(id: String): Boolean
+    addUser(name:String, surname:String):User
 }
 
 type User {
@@ -16,7 +24,7 @@ type User {
     id : String
     name : String!
     surname: String!
-    eMail : String
+    email : String
     birthDate: String
     projects:[Project]
     tasks:[Task]
@@ -49,4 +57,9 @@ type Project{
     users:[User]
     tasks:[Task]
     projects:[Project]
+}
+
+type UserSearch{
+    surname: String
+    email: String
 }

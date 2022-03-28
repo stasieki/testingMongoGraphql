@@ -1,6 +1,7 @@
 package com.example.testingMongoGraphql.controllers;
 
 import com.example.testingMongoGraphql.grahpql_utilities.GraphQlUtility;
+import com.example.testingMongoGraphql.resolver.MutationResolver;
 import graphql.ExecutionResult;
 import graphql.GraphQL;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,25 +17,23 @@ import java.io.IOException;
 @RestController
 public class MainController {
 
-    private GraphQL graphQL;
+    private final GraphQL graphQL;
     private GraphQlUtility graphQlUtility;
+    private final MutationResolver mutationResolver;
+
     @Autowired
-    MainController(GraphQlUtility graphQlUtility) throws IOException {
+    MainController(GraphQlUtility graphQlUtility, MutationResolver mutationResolver) throws IOException {
         this.graphQlUtility = graphQlUtility;
+        this.mutationResolver = mutationResolver;
         graphQL = graphQlUtility.createGraphQlObject();
     }
 
     @PostMapping(value = "/query")
-    public ResponseEntity query(@RequestBody String query){
+    public ResponseEntity query(@RequestBody String query) {
         ExecutionResult result = graphQL.execute(query);
-        System.out.println("errors: "+result.getErrors());
-        return ResponseEntity.ok(result.getData());
-    }
-
-    @DeleteMapping(value = "/query")
-    public ResponseEntity query2(@RequestBody String query){
-        ExecutionResult result = graphQL.execute(query);
-        System.out.println("errors: "+result.getErrors());
+        mutationResolver.addUser("Janusz", "Duda");
+        mutationResolver.updateUser("624154fbc6144c3ca18c50ca", "Janusz", "Duda");
+        System.out.println("errors: " + result.getErrors());
         return ResponseEntity.ok(result.getData());
     }
 

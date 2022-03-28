@@ -11,19 +11,19 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 
 @Component
-public class UserDataFetcher implements DataFetcher<User> {
+public class DeleteUserDataFetcher implements DataFetcher<Boolean> {
 
     private final UserService userService;
 
     @Autowired
-    public UserDataFetcher(UserService userService) {
+    public DeleteUserDataFetcher(UserService userService) {
         this.userService = userService;
     }
 
     @Override
-    public User get(DataFetchingEnvironment env) {
+    public Boolean get(DataFetchingEnvironment env) {
         Map args = env.getArguments();
-        User user = userService.findOneById(new ObjectId(String.valueOf(args.get("id"))));
-        return user;
+        boolean b1 = userService.deleteOneById(new ObjectId(String.valueOf(args.get("id"))));
+        return b1;
     }
 }

@@ -5,7 +5,6 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Date;
 import java.util.List;
 
 @Data
@@ -18,7 +17,7 @@ public class User {
     ObjectId id;
     String name;
     String surname;
-    String eMail;
+    String email;
     String birthDate;
     List<String> tasksListIds;
     List<String> projectsListIds;

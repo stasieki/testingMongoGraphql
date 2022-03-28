@@ -28,4 +28,9 @@ public class ProjectServiceImpl implements ProjectService {
     public List<Project> findAllProjects() {
         return (List<Project>) projectRepository.findAll();
     }
+
+    @Override
+    public List<Project> findAllByTitle(String title) {
+        return (List<Project>) projectRepository.findAllByTitle(title);
+    }
 }

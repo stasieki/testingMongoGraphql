@@ -11,11 +11,10 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-//@Value
 @Document(collection = "Project")
 public class Project {
 //    @Id
-    ObjectId id; //ObjectId ?
+    ObjectId id;
     String title;
     String description;
     String creationDate;
